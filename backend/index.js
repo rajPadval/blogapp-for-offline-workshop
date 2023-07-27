@@ -38,6 +38,31 @@ app.delete("/delete-blog/:id", async (req, res) => {
   }
 });
 
+app.put("/update-blog/:id", async (req, res) => {
+  const id = req.params.id;
+  const blog = await BlogPost.findById(id);
+
+  if (!blog) {
+    res.json(404).json("Blog doesn't exist!");
+  } else {
+    // adding validation for the blog posts
+    if (!req.body.title && !req.body.description) {
+      return res.status(400).json({ message: "Please enter all the fields!" });
+    } else {
+      if (!req.body.title) {
+        blog.description = req.body.description;
+      } else if (!req.body.description) {
+        blog.title = req.body.title;
+      } else {
+        blog.title = req.body.title;
+        blog.description = req.body.description;
+      }
+    }
+    await blog.save();
+    res.status(200).json({ message: "Blog updated successfully!" });
+  }
+});
+
 app.listen(port, () =>
   console.log(`Server runing sucessfully on port ${port}`)
 );
