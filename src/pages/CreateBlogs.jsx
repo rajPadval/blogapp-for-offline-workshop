@@ -1,5 +1,11 @@
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 const CreateBlogs = () => {
+  const navigate = useNavigate();
+
   const postBlog = async (e) => {
+
     e.preventDefault();
 
     const blog = {
@@ -16,13 +22,17 @@ const CreateBlogs = () => {
     });
 
     if (res.status === 200) {
-      alert("Blog posted successfully");
+      toast.success("Blog posted successfully");
       e.target.title.value = "";
       e.target.description.value = "";
+      setTimeout(() => navigate("/"), 2000);
+    } else {
+      toast.error("Some error occured");
     }
   };
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="mt-10  w-[60vw] mx-auto rounded-md">
         <h1 className="text-2xl font-bold text-center">Create Blogs</h1>
         <form onSubmit={postBlog} className="flex flex-col">
@@ -38,7 +48,7 @@ const CreateBlogs = () => {
           />
           <label htmlFor="name" className="text-lg font-semibold">
             Description :{" "}
-          </label> 
+          </label>
           <textarea
             name="description"
             className="border-2 rounded-md p-2 my-2 outline-none focus:border-purple-300"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { MdOutlineModeEdit } from "react-icons/md";
+import toast, { Toaster } from "react-hot-toast";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -24,9 +25,9 @@ const Home = () => {
       method: "DELETE",
     });
     if (response.status === 200) {
-      alert("Blog deleted successfully");
+      toast.success("Blog deleted successfully");
     } else {
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -44,9 +45,9 @@ const Home = () => {
         }),
       });
       if (response.status === 200) {
-        alert("Blog updated successfully");
+        toast.success("Blog updated successfully");
       } else {
-        alert("Something went wrong");
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.log(error);
@@ -54,6 +55,7 @@ const Home = () => {
   };
   return (
     <>
+      <Toaster position="bottom-center" reverseOrder={false} />
       <div className="my-10 flex flex-col justify-center items-center gap-5">
         {blogs.map((blog, i) => {
           return (
@@ -67,7 +69,9 @@ const Home = () => {
 
                 <MdOutlineModeEdit
                   className={`text-lg cursor-pointer text-gray-400 hover:scale-110 hover:text-red-400 ${
-                    editContent ? "text-red-400 scale-110" : "text-gray-400"
+                    selectedPost === blog._id && editContent
+                      ? "text-red-400 scale-110"
+                      : "text-gray-400"
                   }}`}
                   title="Edit"
                   onClick={() => {
@@ -98,7 +102,7 @@ const Home = () => {
                 }}
                 className={`${
                   selectedPost === blog._id && editContent ? "block" : "hidden"
-                } bg-purple-300 hover:bg-purple-600 my-2 text-white px-3 py-1 rounded-md`}
+                } bg-purple-300 hover:bg-purple-600 my-2 text-white px-3 py-1 rounded-md `}
               >
                 Save
               </button>
