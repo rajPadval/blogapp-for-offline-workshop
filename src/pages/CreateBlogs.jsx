@@ -38,7 +38,7 @@ const CreateBlogs = () => {
           />
           <label htmlFor="name" className="text-lg font-semibold">
             Description :{" "}
-          </label>
+          </label> 
           <textarea
             name="description"
             className="border-2 rounded-md p-2 my-2 outline-none focus:border-purple-300"
